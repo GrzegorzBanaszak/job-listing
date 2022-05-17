@@ -5,10 +5,13 @@ const Container = styled.article`
   position: relative;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   padding: 2.4rem 1rem;
-
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  @media (min-width: 1440px) {
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 const Image = styled.img`
@@ -17,8 +20,18 @@ const Image = styled.img`
   height: 4rem;
   top: -2rem;
   left: 1rem;
+  @media (min-width: 1440px) {
+    position: static;
+    width: auto;
+    height: auto;
+  }
 `;
 
+const Content = styled.div`
+  @media (min-width: 1440px) {
+    margin-left: 3rem;
+  }
+`;
 const Company = styled.h3`
   margin: 0.7rem 0 1rem 0;
   display: flex;
@@ -56,6 +69,10 @@ const SkillsList = styled.ul`
   gap: 1rem;
   border-top: 1px solid hsl(180, 29%, 50%);
   list-style-type: none;
+  @media (min-width: 1440px) {
+    margin: 0 4rem 0 auto;
+    border: none;
+  }
 `;
 
 const Skill = styled.li`
@@ -69,16 +86,19 @@ const Job = () => {
   return (
     <Container>
       <Image src="http://localhost:4000/account.svg" alt="jobLogo" />
-      <Company>
-        Photosnack <Info bgColor="hsl(180, 8%, 52%)">New!</Info>
-        <Info bgColor="hsl(180, 14%, 20%)">Featured</Info>
-      </Company>
-      <Title>Senior Frontend Developer</Title>
-      <InfoList>
-        <li>1d ago</li>
-        <li>Full time</li>
-        <li>USA only</li>
-      </InfoList>
+      <Content>
+        <Company>
+          Photosnack <Info bgColor="hsl(180, 8%, 52%)">New!</Info>
+          <Info bgColor="hsl(180, 14%, 20%)">Featured</Info>
+        </Company>
+        <Title>Senior Frontend Developer</Title>
+        <InfoList>
+          <li>1d ago</li>
+          <li>Full time</li>
+          <li>USA only</li>
+        </InfoList>
+      </Content>
+
       <SkillsList>
         <Skill>HTML</Skill>
         <Skill>HTML</Skill>
