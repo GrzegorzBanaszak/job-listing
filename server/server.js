@@ -9,6 +9,7 @@ const colors = require("colors");
 const morgan = require("morgan");
 const dotenv = require("dotenv").config();
 const { connectDB } = require("./config/db");
+const uploadFile = require("./controllers/fileUpload");
 
 const PORT = process.env.PORT || 4000;
 
@@ -33,12 +34,11 @@ async function startServer() {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(morgan("dev"));
+  app.use(express.static("uploads"));
 
-  app.use((req, res) => {
-    res.send("Hello from server");
-  });
+  app.post("/upload-avatar", uploadFile);
 
-  connectDB();
+  await connectDB();
 
   app.listen(PORT, () => console.log("Server running on port 4000"));
 }
