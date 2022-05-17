@@ -4,7 +4,7 @@ const typeDefs = gql`
   type Job {
     id: ID
     company: String
-    name: String
+    title: String
     skills: [Skill]
   }
 
@@ -15,6 +15,11 @@ const typeDefs = gql`
 
   type Query {
     getJobs: [Job]
+    getSkills: [Skill]
+  }
+
+  type Mutation {
+    createSkill(name: String): Skill
   }
 `;
 
