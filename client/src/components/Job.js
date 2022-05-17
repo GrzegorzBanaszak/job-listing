@@ -20,13 +20,26 @@ const Image = styled.img`
 `;
 
 const Company = styled.h3`
-  margin: 0.4rem 0;
+  margin: 0.7rem 0 1rem 0;
+  display: flex;
+  align-items: center;
+`;
+
+const Info = styled.span`
+  color: white;
+  background: ${(props) => props.bgColor};
+  border-radius: 20px;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.9rem;
+  margin-left: 0.7rem;
+  text-transform: uppercase;
 `;
 
 const Title = styled.h3`
   margin-bottom: 0.4rem;
   color: black;
 `;
+
 const InfoList = styled.ul`
   display: flex;
   gap: 2rem;
@@ -37,8 +50,10 @@ const InfoList = styled.ul`
 
 const SkillsList = styled.ul`
   margin-top: 0.7rem;
-  padding: 0.5rem 0;
+  padding: 0.7rem 0;
   display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
   border-top: 1px solid hsl(180, 29%, 50%);
   list-style-type: none;
 `;
@@ -54,7 +69,10 @@ const Job = () => {
   return (
     <Container>
       <Image src="http://localhost:4000/account.svg" alt="jobLogo" />
-      <Company>Photosnack</Company>
+      <Company>
+        Photosnack <Info bgColor="hsl(180, 8%, 52%)">New!</Info>
+        <Info bgColor="hsl(180, 14%, 20%)">Featured</Info>
+      </Company>
       <Title>Senior Frontend Developer</Title>
       <InfoList>
         <li>1d ago</li>
@@ -62,6 +80,7 @@ const Job = () => {
         <li>USA only</li>
       </InfoList>
       <SkillsList>
+        <Skill>HTML</Skill>
         <Skill>HTML</Skill>
       </SkillsList>
     </Container>
