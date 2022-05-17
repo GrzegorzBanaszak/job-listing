@@ -7,16 +7,12 @@ const uploadFile = async (req, res) => {
       });
     } else {
       let avatar = req.files.avatar;
-      avatar.mv("./uploads/" + avatar.name);
-
+      // avatar.mv("./uploads/" + avatar.name);
+      const url = `${req.protocol}://${req.host}/${avatar.name}`;
       res.send({
         status: true,
         message: "File is uploaded",
-        data: {
-          name: avatar.name,
-          mimetype: avatar.mimetype,
-          size: avatar.size,
-        },
+        imageUrl: url,
       });
     }
   } catch (err) {
