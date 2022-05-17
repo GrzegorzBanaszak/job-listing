@@ -6,6 +6,9 @@ const typeDefs = gql`
     company: String
     title: String
     skills: [Skill]
+    image: String
+    location: String
+    workType: String
     createdAt: String
   }
 
@@ -24,6 +27,9 @@ const typeDefs = gql`
   input CreateJobInput {
     company: String
     title: String
+    image: String
+    location: String
+    workType: String
     skills: [SkillInput]
   }
 

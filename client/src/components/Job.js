@@ -82,26 +82,28 @@ const Skill = styled.li`
   background-color: #e4e8e8;
   padding: 0.4rem;
 `;
-const Job = () => {
+const Job = ({ job }) => {
+  const { company, title, image, location, workType, createdAt, skills } = job;
   return (
     <Container>
-      <Image src="http://localhost:4000/account.svg" alt="jobLogo" />
+      <Image src={image} alt="jobLogo" />
       <Content>
         <Company>
-          Photosnack <Info bgColor="hsl(180, 8%, 52%)">New!</Info>
+          {company} <Info bgColor="hsl(180, 8%, 52%)">New!</Info>
           <Info bgColor="hsl(180, 14%, 20%)">Featured</Info>
         </Company>
-        <Title>Senior Frontend Developer</Title>
+        <Title>{title}</Title>
         <InfoList>
           <li>1d ago</li>
-          <li>Full time</li>
-          <li>USA only</li>
+          <li>{workType}</li>
+          <li>{location}</li>
         </InfoList>
       </Content>
 
       <SkillsList>
-        <Skill>HTML</Skill>
-        <Skill>HTML</Skill>
+        {skills.map((skill) => (
+          <Skill key={skill.id}>{skill.name}</Skill>
+        ))}
       </SkillsList>
     </Container>
   );

@@ -5,7 +5,7 @@ const resolvers = {
   Query: {
     getJobs: async () => {
       const jobs = await JobModel.find();
-      return job;
+      return jobs;
     },
     getSkills: async () => {
       const skills = await SkillModel.find();
@@ -18,8 +18,15 @@ const resolvers = {
       return skill;
     },
     createJob: async (parents, args) => {
-      const { company, title, skills } = args.input;
-      const job = await JobModel.create({ company, title, skills });
+      const { company, title, skills, image, location, workType } = args.input;
+      const job = await JobModel.create({
+        company,
+        title,
+        skills,
+        image: process.env.IMAGE_URL + image,
+        location,
+        workType,
+      });
       return job;
     },
   },
