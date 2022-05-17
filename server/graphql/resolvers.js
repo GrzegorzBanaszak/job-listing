@@ -17,6 +17,11 @@ const resolvers = {
       const skill = await SkillModel.create({ name: args.name });
       return skill;
     },
+    createJob: async (parents, args) => {
+      const { company, title, skills } = args.input;
+      const job = await JobModel.create({ company, title, skills });
+      return job;
+    },
   },
 };
 
