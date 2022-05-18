@@ -4,6 +4,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import { QUERY_ALL_SKILLS } from "../query/gqlQuery";
 import axios from "axios";
+import { CREATE_JOB } from "../query/gqlQuery";
+import { useMutation } from "@apollo/client";
 const Container = styled.section`
   margin: 3rem 1rem;
   max-width: 1200px;
@@ -153,12 +155,23 @@ const Add = () => {
   const [workType, setWorkType] = useState("");
   const [skills, setSkills] = useState([]);
 
+  //Mutation
+  const [createJob] = useMutation(CREATE_JOB);
+
   const selectSkillHandler = (skillName) => {
     if (skills.some((x) => x === skillName)) {
       const filtred = skills.filter((x) => x !== skillName);
       setSkills(filtred);
     } else {
       setSkills((prev) => [...prev, skillName]);
+    }
+  };
+
+  const isFormValid = () => {
+    if (company && title && location && workType && skills.length > 0) {
+      return true;
+    } else {
+      return false;
     }
   };
 
@@ -178,7 +191,7 @@ const Add = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    if (file !== null) {
+    if (file !== null && isFormValid()) {
       const bodyForm = new FormData();
       bodyForm.append("avatar", file);
       try {
@@ -188,8 +201,20 @@ const Add = () => {
           data: bodyForm,
           headers: { "Content-Type": "multipart/form-data" },
         });
-
-        console.log(res);
+        if (res.status === true) {
+          createJob({
+            variables: {
+              input: {
+                company,
+                title,
+                image: res.data.imageUrl,
+                location,
+                workType,
+                skills,
+              },
+            },
+          });
+        }
       } catch (error) {
         console.log(error);
       }
@@ -217,19 +242,43 @@ const Add = () => {
         <ColRight>
           <FormGroup>
             <label htmlFor="company">Company name</label>
-            <input type="text" id="company" name="company" />
+            <input
+              type="text"
+              id="company"
+              name="company"
+              value={company}
+              onChange={(e) => setComapny(e.target.value)}
+            />
           </FormGroup>
           <FormGroup>
             <label htmlFor="title">Job name</label>
-            <input type="text" id="title" name="title" />
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
           </FormGroup>
           <FormGroup>
             <label htmlFor="location">Location</label>
-            <input type="text" id="location" name="location" />
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            />
           </FormGroup>
           <FormGroup>
             <label htmlFor="workType">Work type</label>
-            <input type="text" id="workType" name="workType" />
+            <input
+              type="text"
+              id="workType"
+              name="workType"
+              value={workType}
+              onChange={(e) => setWorkType(e.target.value)}
+            />
           </FormGroup>
           {!loading && (
             <SkillsList>
