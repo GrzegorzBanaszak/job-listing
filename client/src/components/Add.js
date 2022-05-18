@@ -144,7 +144,7 @@ const SubmitButton = styled.button`
   }
 `;
 
-const Add = () => {
+const Add = ({ refetch }) => {
   const { data, loading } = useQuery(QUERY_ALL_SKILLS);
   //File state
   const [file, setFile] = useState(null);
@@ -199,27 +199,29 @@ const Add = () => {
       const bodyForm = new FormData();
       bodyForm.append("avatar", file);
       try {
-        // const res = await axios({
-        //   method: "POST",
-        //   url: "https://job-graphql.herokuapp.com/upload-avatar",
-        //   data: bodyForm,
-        //   headers: { "Content-Type": "multipart/form-data" },
-        // });
-        // console.log(res.status);
+        const res = await axios({
+          method: "POST",
+          url: "https://job-graphql.herokuapp.com/upload-avatar",
+          data: bodyForm,
+          headers: { "Content-Type": "multipart/form-data" },
+        });
         if (true) {
           createJob({
             variables: {
               input: {
                 company,
                 title,
-                // image: res.data.imageUrl,
+                image: res.data.imageUrl,
                 location,
                 workType,
                 skills,
               },
             },
           })
-            .then(nav("/"))
+            .then(() => {
+              refetch();
+              nav("/");
+            })
             .catch((err) => console.log(err));
         }
       } catch (error) {

@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const Container = styled.article`
   position: relative;
+  margin: 2.5rem 0;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   padding: 2.4rem 1rem;
   border-radius: 10px;
