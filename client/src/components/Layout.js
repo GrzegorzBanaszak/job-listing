@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
 import GlobalStyles from "./globalStyles";
 import bannerMobile from "../assets/bg-header-mobile.svg";
@@ -17,6 +17,23 @@ const Header = styled.header`
   overflow: hidden;
 `;
 
+const Nav = styled.nav`
+  margin: 3rem 10vw;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  background-color: white;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: hsl(180, 14%, 20%);
+`;
+
 const Layout = () => {
   const [bannerImage, setBannerImage] = useState(null);
 
@@ -28,7 +45,7 @@ const Layout = () => {
     }
   };
   useEffect(() => {
-    if (bannerImage) {
+    if (bannerImage === null) {
       handelBannerImageChange();
     }
 
@@ -41,7 +58,12 @@ const Layout = () => {
 
   return (
     <>
-      <Header bgImage={bannerImage}></Header>
+      <Header bgImage={bannerImage}>
+        <Nav>
+          <StyledLink to="/">Job List</StyledLink>
+          <StyledLink to="/add">Add new job</StyledLink>
+        </Nav>
+      </Header>
       <GlobalStyles />
       <Outlet />
     </>

@@ -42,7 +42,7 @@ const Info = styled.span`
   color: white;
   background: ${(props) => props.bgColor};
   border-radius: 20px;
-  padding: 0.4rem 0.5rem;
+  padding: 0.3rem 0.5rem;
   font-size: 0.9rem;
   margin-left: 0.7rem;
   text-transform: uppercase;
@@ -50,6 +50,7 @@ const Info = styled.span`
 
 const Title = styled.h3`
   margin-bottom: 0.4rem;
+  font-size: 1.2rem;
   color: black;
 `;
 

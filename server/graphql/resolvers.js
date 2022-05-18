@@ -35,7 +35,7 @@ const resolvers = {
         company,
         title,
         skills,
-        image: process.env.IMAGE_URL + image,
+        image,
         location,
         workType,
       });
