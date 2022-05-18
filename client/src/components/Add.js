@@ -6,6 +6,7 @@ import { QUERY_ALL_SKILLS } from "../query/gqlQuery";
 import axios from "axios";
 import { CREATE_JOB } from "../query/gqlQuery";
 import { useMutation } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
 const Container = styled.section`
   margin: 3rem 1rem;
   max-width: 1200px;
@@ -89,6 +90,7 @@ const FormGroup = styled.div`
     border: none;
     padding: 0.2rem;
     margin-top: 0.5rem;
+    font-size: 1.2rem;
     outline: none;
     border-bottom: 1px solid hsl(180, 29%, 50%);
     color: hsl(180, 29%, 50%);
@@ -158,6 +160,8 @@ const Add = () => {
   //Mutation
   const [createJob] = useMutation(CREATE_JOB);
 
+  const nav = useNavigate();
+
   const selectSkillHandler = (skillName) => {
     if (skills.some((x) => x === skillName)) {
       const filtred = skills.filter((x) => x !== skillName);
@@ -195,25 +199,28 @@ const Add = () => {
       const bodyForm = new FormData();
       bodyForm.append("avatar", file);
       try {
-        const res = await axios({
-          method: "POST",
-          url: "https://job-graphql.herokuapp.com/upload-avatar",
-          data: bodyForm,
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        if (res.status === true) {
+        // const res = await axios({
+        //   method: "POST",
+        //   url: "https://job-graphql.herokuapp.com/upload-avatar",
+        //   data: bodyForm,
+        //   headers: { "Content-Type": "multipart/form-data" },
+        // });
+        // console.log(res.status);
+        if (true) {
           createJob({
             variables: {
               input: {
                 company,
                 title,
-                image: res.data.imageUrl,
+                // image: res.data.imageUrl,
                 location,
                 workType,
                 skills,
               },
             },
-          });
+          })
+            .then(nav("/"))
+            .catch((err) => console.log(err));
         }
       } catch (error) {
         console.log(error);
@@ -282,14 +289,14 @@ const Add = () => {
           </FormGroup>
           {!loading && (
             <SkillsList>
-              {data.getSkills.map(({ id, name }) => {
+              {data.getSkills.map((skill) => {
                 return (
                   <Skill
-                    key={id}
-                    onClick={() => selectSkillHandler(name)}
-                    isSelect={skills.some((x) => x === name)}
+                    key={skill.id}
+                    onClick={() => selectSkillHandler({ name: skill.name })}
+                    isSelect={skills.some((x) => x.name === skill.name)}
                   >
-                    {name}
+                    {skill.name}
                   </Skill>
                 );
               })}

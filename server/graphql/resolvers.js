@@ -5,18 +5,16 @@ const resolvers = {
   Query: {
     getJobs: async () => {
       const jobs = await JobModel.find();
-      const filtredJobs = jobs.map((job) => {
-        return {
-          company: job.company,
-          title: job.title,
-          image: job.image,
-          location: job.location,
-          workType: job.workType,
-          skills: job.skills,
-          createdAt: job.createdAt.toISOString(),
-        };
-      });
-
+      const filtredJobs = jobs.map((job) => ({
+        id: job.id,
+        company: job.company,
+        title: job.title,
+        image: job.image,
+        location: job.location,
+        workType: job.workType,
+        skills: job.skills,
+        createdAt: job.createdAt.toISOString(),
+      }));
       return filtredJobs;
     },
     getSkills: async () => {

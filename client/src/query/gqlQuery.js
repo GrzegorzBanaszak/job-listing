@@ -29,7 +29,7 @@ export const QUERY_ALL_SKILLS = gql`
 
 export const CREATE_JOB = gql`
   mutation CreateTask($input: CreateJobInput) {
-    createTask(input: $input) {
+    createJob(input: $input) {
       id
       company
       title
