@@ -17,3 +17,12 @@ export const QUERY_ALL_JOBS = gql`
     }
   }
 `;
+
+export const QUERY_ALL_SKILLS = gql`
+  query GetSkills {
+    getSkills {
+      id
+      name
+    }
+  }
+`;

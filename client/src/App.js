@@ -5,7 +5,7 @@ import List from "./components/List";
 import { useQuery } from "@apollo/client";
 import { QUERY_ALL_JOBS } from "./query/gqlQuery";
 function App() {
-  const { data, loading, refetch } = useQuery(QUERY_ALL_JOBS);
+  const { data, loading } = useQuery(QUERY_ALL_JOBS);
   return (
     <BrowserRouter>
       <Routes>

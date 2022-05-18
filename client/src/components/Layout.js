@@ -13,25 +13,34 @@ const Header = styled.header`
   background-size: cover;
   background-repeat: no-repeat;
   height: 20vh;
-  width: 100%;
-  overflow: hidden;
 `;
 
 const Nav = styled.nav`
-  margin: 3rem 10vw;
+  margin: 0 10vw;
+  padding-top: 2rem;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 1rem;
 `;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   background-color: white;
-  padding: 0.7rem 1rem;
-  border-radius: 10px;
-  font-size: 1.3rem;
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 50%;
   font-weight: 700;
+  text-transform: uppercase;
   color: hsl(180, 14%, 20%);
+  @media (min-width: 1440px) {
+    width: 7rem;
+    height: 7rem;
+    font-size: 1.3rem;
+  }
 `;
 
 const Layout = () => {

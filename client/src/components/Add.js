@@ -1,7 +1,9 @@
+import { useQuery } from "@apollo/client";
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
-
+import { QUERY_ALL_SKILLS } from "../query/gqlQuery";
+import axios from "axios";
 const Container = styled.section`
   margin: 3rem 1rem;
   max-width: 1200px;
@@ -12,17 +14,24 @@ const Container = styled.section`
 
 const Form = styled.form`
   display: flex;
+  gap: 3rem;
+  flex-direction: column;
   background-color: white;
   padding: 3rem 1rem;
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  @media (min-width: 1440px) {
+    flex-direction: row;
+  }
 `;
 
 const ColLeft = styled.div`
-  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (min-width: 1440px) {
+    width: 50%;
+  }
 `;
 
 const Preview = styled.div`
@@ -63,7 +72,10 @@ const SelectImage = styled.label`
 `;
 
 const ColRight = styled.div`
-  width: 50%;
+  margin: 0 0.5rem;
+  @media (min-width: 1440px) {
+    width: 50%;
+  }
 `;
 
 const FormGroup = styled.div`
@@ -91,7 +103,6 @@ const SkillsList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  border-top: 1px solid hsl(180, 29%, 50%);
   list-style-type: none;
   @media (min-width: 1440px) {
     margin: 0 4rem 0 auto;
@@ -100,14 +111,14 @@ const SkillsList = styled.ul`
 `;
 
 const Skill = styled.li`
-  color: hsl(180, 8%, 52%);
+  color: ${({ isSelect }) => (isSelect ? "white" : "hsl(180, 8%, 52%)")};
   font-weight: 700;
   font-size: 1.1rem;
-  background-color: #e4e8e8;
+  background-color: ${({ isSelect }) => (isSelect ? "#ef5350" : "#e4e8e8")};
   padding: 0.4rem;
   cursor: pointer;
   &:hover {
-    background-color: #e2e2e2;
+    background-color: ${({ isSelect }) => (isSelect ? "#e57373" : "#e2e2e2")};
   }
 `;
 
@@ -130,8 +141,26 @@ const SubmitButton = styled.button`
 `;
 
 const Add = () => {
+  const { data, loading } = useQuery(QUERY_ALL_SKILLS);
+  //File state
   const [file, setFile] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
+
+  //Form states
+  const [company, setComapny] = useState("");
+  const [title, setTitle] = useState("");
+  const [location, setLocation] = useState("");
+  const [workType, setWorkType] = useState("");
+  const [skills, setSkills] = useState([]);
+
+  const selectSkillHandler = (skillName) => {
+    if (skills.some((x) => x === skillName)) {
+      const filtred = skills.filter((x) => x !== skillName);
+      setSkills(filtred);
+    } else {
+      setSkills((prev) => [...prev, skillName]);
+    }
+  };
 
   const handleImageChange = (e) => {
     const targetFile = e.target.files[0];
@@ -146,9 +175,29 @@ const Add = () => {
     fileReader.readAsDataURL(targetFile);
     setFile(targetFile);
   };
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    if (file !== null) {
+      const bodyForm = new FormData();
+      bodyForm.append("avatar", file);
+      try {
+        const res = await axios({
+          method: "POST",
+          url: "https://job-graphql.herokuapp.com/upload-avatar",
+          data: bodyForm,
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <Container>
-      <Form>
+      <Form onSubmit={onSubmitHandler}>
         <ColLeft>
           <PreviewTitle>Preview</PreviewTitle>
           <Preview>
@@ -182,9 +231,22 @@ const Add = () => {
             <label htmlFor="workType">Work type</label>
             <input type="text" id="workType" name="workType" />
           </FormGroup>
-          <SkillsList>
-            <Skill>Html</Skill>
-          </SkillsList>
+          {!loading && (
+            <SkillsList>
+              {data.getSkills.map(({ id, name }) => {
+                return (
+                  <Skill
+                    key={id}
+                    onClick={() => selectSkillHandler(name)}
+                    isSelect={skills.some((x) => x === name)}
+                  >
+                    {name}
+                  </Skill>
+                );
+              })}
+            </SkillsList>
+          )}
+
           <SubmitButton type="submit">Send</SubmitButton>
         </ColRight>
       </Form>
