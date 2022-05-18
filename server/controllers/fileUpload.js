@@ -1,3 +1,5 @@
+const { v4 } = require("uuid");
+
 const uploadFile = async (req, res) => {
   try {
     if (!req.files) {
@@ -7,8 +9,10 @@ const uploadFile = async (req, res) => {
       });
     } else {
       let avatar = req.files.avatar;
-      // avatar.mv("./uploads/" + avatar.name);
-      const url = `${req.protocol}://${req.host}/${avatar.name}`;
+      const sliced = avatar.name.split(".");
+      const name = `${sliced[0]}${v4()}.${sliced[1]}`;
+      avatar.mv("./uploads/" + name);
+      const url = `${req.protocol}://${req.hostname}/${name}`;
       res.send({
         status: true,
         message: "File is uploaded",
