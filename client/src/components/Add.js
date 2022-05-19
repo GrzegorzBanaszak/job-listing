@@ -221,8 +221,7 @@ const Add = ({ refetch }) => {
             },
           })
             .then(() => {
-              refetch();
-              nav("/");
+              refetch().then(nav("/"));
             })
             .catch((err) => console.log(err));
         }

@@ -22,7 +22,7 @@ function App() {
         setJobs(data.getJobs);
       }
     }
-  }, [loading, filter]);
+  }, [data, filter]);
 
   const applyFilter = (skillName) => {
     if (filter.some((skill) => skill === skillName)) {
