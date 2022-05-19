@@ -56,7 +56,7 @@ async function startServer() {
         imageUrl: results.Location,
       });
     } catch (err) {
-      res.json(err);
+      res.status(400).json({ status: false, err });
     }
   });
 

@@ -201,30 +201,30 @@ const Add = ({ refetch }) => {
       try {
         const res = await axios({
           method: "POST",
-          url: "http://localhost:4000/uploads",
+          url: "https://job-graphql.herokuapp.com/uploads",
           data: bodyForm,
           headers: { "Content-Type": "multipart/form-data" },
         });
-        console.log(res);
-        // if (true) {
-        //   createJob({
-        //     variables: {
-        //       input: {
-        //         company,
-        //         title,
-        //         image: res.data.imageUrl,
-        //         location,
-        //         workType,
-        //         skills,
-        //       },
-        //     },
-        //   })
-        //     .then(() => {
-        //       refetch();
-        //       nav("/");
-        //     })
-        //     .catch((err) => console.log(err));
-        // }
+
+        if (res.data.status) {
+          createJob({
+            variables: {
+              input: {
+                company,
+                title,
+                image: res.data.imageUrl,
+                location,
+                workType,
+                skills,
+              },
+            },
+          })
+            .then(() => {
+              refetch();
+              nav("/");
+            })
+            .catch((err) => console.log(err));
+        }
       } catch (error) {
         console.log(error);
       }
