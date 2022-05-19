@@ -56,7 +56,11 @@ function App() {
               loading ? (
                 <div>loading</div>
               ) : (
-                <List data={jobs} applyFilter={applyFilter} />
+                <List
+                  data={jobs}
+                  applyFilter={applyFilter}
+                  filterLength={filter.length}
+                />
               )
             }
           />

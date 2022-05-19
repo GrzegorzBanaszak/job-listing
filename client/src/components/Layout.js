@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import { FaList } from "react-icons/fa";
 import { BiAddToQueue } from "react-icons/bi";
 const Header = styled.header`
-  position: relative;
   background-color: hsl(180, 8%, 52%);
   background-image: ${(props) => `url(${props.bgImage})`};
   background-size: cover;

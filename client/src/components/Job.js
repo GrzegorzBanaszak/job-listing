@@ -1,4 +1,6 @@
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.article`
@@ -87,17 +89,25 @@ const Skill = styled.li`
 `;
 const Job = ({ job, applyFilter }) => {
   const { company, title, image, location, workType, createdAt, skills } = job;
+  const [days, setDays] = useState(0);
+
+  useEffect(() => {
+    const created = new Date(createdAt);
+    const now = new Date();
+    const difference = Math.abs(now - created);
+    setDays(Math.round(difference / (1000 * 3600 * 24)));
+  }, []);
   return (
     <Container>
       <Image src={image} alt="jobLogo" />
       <Content>
         <Company>
-          {company} <Info bgColor="hsl(180, 8%, 52%)">New!</Info>
-          <Info bgColor="hsl(180, 14%, 20%)">Featured</Info>
+          {company} {days < 2 && <Info bgColor="hsl(180, 8%, 52%)">New!</Info>}
+          {days < 1 && <Info bgColor="hsl(180, 14%, 20%)">Featured</Info>}
         </Company>
         <Title>{title}</Title>
         <InfoList>
-          <li>1d ago</li>
+          <li>{days === 0 ? "Today" : `${days}d ago`}</li>
           <li>{workType}</li>
           <li>{location}</li>
         </InfoList>
