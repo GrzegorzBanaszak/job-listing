@@ -1,6 +1,6 @@
 {
   "homepage": "http://GrzegorzBanaszak.github.io/job-listing",
-  "name": "client",
+  "name": "job-listing",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
