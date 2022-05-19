@@ -10,11 +10,11 @@ const Container = styled.section`
   }
 `;
 
-const List = ({ data }) => {
+const List = ({ data, applyFilter }) => {
   return (
     <Container>
       {data.map((job) => (
-        <Job key={job.id} job={job} />
+        <Job key={job.id} job={job} applyFilter={applyFilter} />
       ))}
     </Container>
   );

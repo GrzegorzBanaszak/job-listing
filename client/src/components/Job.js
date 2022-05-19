@@ -84,7 +84,7 @@ const Skill = styled.li`
   background-color: #e4e8e8;
   padding: 0.4rem;
 `;
-const Job = ({ job }) => {
+const Job = ({ job, applyFilter }) => {
   const { company, title, image, location, workType, createdAt, skills } = job;
   return (
     <Container>
@@ -104,7 +104,9 @@ const Job = ({ job }) => {
 
       <SkillsList>
         {skills.map((skill) => (
-          <Skill key={skill.id}>{skill.name}</Skill>
+          <Skill key={skill.id} onClick={() => applyFilter(skill.name)}>
+            {skill.name}
+          </Skill>
         ))}
       </SkillsList>
     </Container>
