@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 const Header = styled.header`
+  position: relative;
   background-color: hsl(180, 8%, 52%);
   background-image: ${(props) => `url(${props.bgImage})`};
   background-size: cover;
@@ -43,7 +44,57 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const Layout = () => {
+const FilterList = styled.div`
+  position: absolute;
+  width: 90%;
+  max-width: 1200px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 10px;
+  bottom: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Clear = styled.div`
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const FilterElements = styled.div`
+  display: flex;
+`;
+
+const FilterElement = styled.div`
+  margin-right: 1rem;
+  font-weight: 700;
+  background-color: #e4e8e8;
+  gap: 1rem;
+  padding-left: 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    background-color: hsl(180, 8%, 52%);
+    color: white;
+    font-weight: 700;
+    padding: 0.3rem 0.4rem;
+    cursor: pointer;
+    &:hover {
+      background-color: hsl(180, 14%, 20%);
+    }
+  }
+`;
+
+const Layout = ({ filter, setFilter }) => {
   const [bannerImage, setBannerImage] = useState(null);
 
   const handelBannerImageChange = () => {
@@ -65,6 +116,11 @@ const Layout = () => {
     };
   }, []);
 
+  const removeFilter = (name) => {
+    const filtred = filter.filter((x) => x !== name);
+    setFilter(filtred);
+  };
+
   return (
     <>
       <Header bgImage={bannerImage}>
@@ -72,6 +128,17 @@ const Layout = () => {
           <StyledLink to="/">Job List</StyledLink>
           <StyledLink to="/add">Add new job</StyledLink>
         </Nav>
+        <FilterList>
+          <FilterElements>
+            {filter.length > 0 &&
+              filter.map((skill, index) => (
+                <FilterElement key={index}>
+                  {skill} <span onClick={() => removeFilter(skill)}>X</span>
+                </FilterElement>
+              ))}
+          </FilterElements>
+          <Clear onClick={() => setFilter([])}>Clear</Clear>
+        </FilterList>
       </Header>
       <GlobalStyles />
       <Outlet />

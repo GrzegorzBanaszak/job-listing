@@ -3,10 +3,10 @@ import styled from "styled-components";
 import Job from "./Job";
 
 const Container = styled.section`
-  margin: 3rem 1rem;
+  margin: 5rem 1rem;
   max-width: 1200px;
   @media (min-width: 1440px) {
-    margin: 3rem auto;
+    margin: 5rem auto;
   }
 `;
 

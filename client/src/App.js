@@ -46,7 +46,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route
+          path="/"
+          element={<Layout filter={filter} setFilter={setFilter} />}
+        >
           <Route
             index
             element={
