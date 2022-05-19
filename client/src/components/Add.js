@@ -197,33 +197,34 @@ const Add = ({ refetch }) => {
     e.preventDefault();
     if (file !== null && isFormValid()) {
       const bodyForm = new FormData();
-      bodyForm.append("avatar", file);
+      bodyForm.append("file", file);
       try {
         const res = await axios({
           method: "POST",
-          url: "https://job-graphql.herokuapp.com/upload-avatar",
+          url: "http://localhost:4000/uploads",
           data: bodyForm,
           headers: { "Content-Type": "multipart/form-data" },
         });
-        if (true) {
-          createJob({
-            variables: {
-              input: {
-                company,
-                title,
-                image: res.data.imageUrl,
-                location,
-                workType,
-                skills,
-              },
-            },
-          })
-            .then(() => {
-              refetch();
-              nav("/");
-            })
-            .catch((err) => console.log(err));
-        }
+        console.log(res);
+        // if (true) {
+        //   createJob({
+        //     variables: {
+        //       input: {
+        //         company,
+        //         title,
+        //         image: res.data.imageUrl,
+        //         location,
+        //         workType,
+        //         skills,
+        //       },
+        //     },
+        //   })
+        //     .then(() => {
+        //       refetch();
+        //       nav("/");
+        //     })
+        //     .catch((err) => console.log(err));
+        // }
       } catch (error) {
         console.log(error);
       }

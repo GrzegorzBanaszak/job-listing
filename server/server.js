@@ -27,7 +27,10 @@ async function startServer() {
 
   await apolloServer.start();
   apolloServer.applyMiddleware({ app: app });
-
+  app.use(cors());
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(morgan("dev"));
   app.get("/", (req, res) => {
     res.send({ response: "Server is up and running." }).status(200);
   });
@@ -47,21 +50,15 @@ async function startServer() {
   app.post("/uploads", upload.single("file"), async (req, res) => {
     try {
       const results = await s3Upload(req.file);
-      res.send({
+      res.status(200).json({
         status: true,
         message: "File is uploaded",
         imageUrl: results.Location,
       });
     } catch (err) {
-      console.log(err);
+      res.json(err);
     }
   });
-
-  app.use(cors());
-  // app.use(bodyParser.json());
-  // app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(morgan("dev"));
-  app.use(express.static("uploads"));
 
   app.use((err, req, res, next) => {
     if (err instanceof multer.MulterError) {
