@@ -26,7 +26,7 @@ function App() {
 
   const applyFilter = (skillName) => {
     if (filter.some((skill) => skill === skillName)) {
-      const removeFilter = filter.map((skill) => skill !== skillName);
+      const removeFilter = filter.filter((skill) => skill !== skillName);
       setFilter(removeFilter);
     } else {
       setFilter((prev) => [...prev, skillName]);
@@ -44,7 +44,7 @@ function App() {
     setJobs(items);
   };
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route
           path="/"

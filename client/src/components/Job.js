@@ -83,6 +83,7 @@ const Skill = styled.li`
   font-size: 1.1rem;
   background-color: #e4e8e8;
   padding: 0.4rem;
+  cursor: pointer;
 `;
 const Job = ({ job, applyFilter }) => {
   const { company, title, image, location, workType, createdAt, skills } = job;
