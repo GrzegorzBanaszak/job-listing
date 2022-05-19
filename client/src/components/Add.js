@@ -163,8 +163,9 @@ const Add = ({ refetch }) => {
   const nav = useNavigate();
 
   const selectSkillHandler = (skillName) => {
-    if (skills.some((x) => x === skillName)) {
-      const filtred = skills.filter((x) => x !== skillName);
+    console.log(skills.some((x) => x.name === skillName.name));
+    if (skills.some((x) => x.name === skillName.name)) {
+      const filtred = skills.filter((x) => x.name !== skillName.name);
       setSkills(filtred);
     } else {
       setSkills((prev) => [...prev, skillName]);
